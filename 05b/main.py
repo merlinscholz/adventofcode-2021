@@ -15,4 +15,4 @@ if __name__ == "__main__":
             for (x,y) in zip(range(x1, x2+xstep, xstep), range(y1, y2+ystep, ystep)):
                 field[x, y] += 1
 
-    print(np.where(field >= 2)[0].size)
+    print(np.count_nonzero(field >= 2))
