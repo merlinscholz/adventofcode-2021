@@ -1,10 +1,9 @@
 import numpy as np
 
 if __name__ == '__main__':
-    input = open('input', 'r').readlines()
-    draws = [int(x) for x in input[0].split(",")]
-    fields_raw = "".join(input[2:]).split("\n\n")
-    fields = np.array([[[int(y.strip()) for y in x.split()] for x in field.strip("\n").split("\n")] for field in fields_raw])
+    draws = np.loadtxt("input", dtype=int, max_rows=1, delimiter=',')
+    fields = np.loadtxt("input", dtype=int, skiprows=2)
+    fields = np.array(np.split(fields, len(fields)/5, axis=0))
     fields_mask = np.full(fields.shape, False)
     winning_fields = list(range(0, len(fields)))
 
