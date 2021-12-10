@@ -8,12 +8,14 @@ if __name__ == '__main__':
         if char == '<': return '>'
 
     def points(char):
-        if char == ')': return 3
-        if char == ']': return 57
-        if char == '}': return 1197
-        if char == '>': return 25137
+        if char == ')': return 1
+        if char == ']': return 2
+        if char == '}': return 3
+        if char == '>': return 4
 
-    errors = list()
+    score = lambda x: points(x[0]) if len(x) == 1 else 5*score(x[1:]) + points(x[0])
+
+    scores = list()
 
     for line in input:
         stack = list()
@@ -22,7 +24,10 @@ if __name__ == '__main__':
                 stack.append(char)
             if char in [')', ']', '}', '>']:
                 if inverse(stack.pop(-1)) != char:
-                    errors.append(char)
+                    stack = list()
                     break
 
-    print(sum([points(x) for x in errors]))
+        if len(stack) > 0: scores.append(score([inverse(x) for x in stack]))
+
+    print(sorted(scores)[len(scores)//2])
+    pass
