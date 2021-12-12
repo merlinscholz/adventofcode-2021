@@ -1,21 +1,23 @@
 if __name__ == '__main__':
     input = [x.strip().split('-') for x in open('input', 'r').readlines()]
-    conn = {}
+    map = {}
     for path in input:
-        if path[0] not in conn: conn[path[0]] = list()
-        conn[path[0]].append(path[1])
-        if path[1] not in conn: conn[path[1]] = list()
-        conn[path[1]].append(path[0])
+        if path[0] not in map: map[path[0]] = list()
+        map[path[0]].append(path[1])
+        if path[1] not in map: map[path[1]] = list()
+        map[path[1]].append(path[0])
 
-    avail = [['start']]
+    paths_to_finish = [['start']]
     counter = 0
 
-    while avail:
-        curr = avail.pop()
-        for next in conn[curr[-1]]:
-            if next == 'end':
-                counter += 1
-            elif next.isupper() or next not in curr:
-                avail.append(curr + [next])
+    while paths_to_finish:
+        current_path = paths_to_finish.pop()
+        if current_path[-1] == 'end':
+            counter += 1
+            continue
+        for next_cave in map[current_path[-1]]:
+            if next_cave.islower() and next_cave in current_path:
+                continue
+            paths_to_finish.append(current_path + [next_cave])
 
     print(counter)
