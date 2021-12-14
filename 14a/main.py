@@ -1,7 +1,7 @@
 from collections import Counter
 
 if __name__ == '__main__':
-    input = [x.strip() for x in open('test').readlines()]
+    input = [x.strip() for x in open('input').readlines()]
     tuples = {}
     for i in range(len(input[0])-1):
         values = "".join(input[0][i:i+2])
@@ -10,16 +10,20 @@ if __name__ == '__main__':
 
     # TODO Map to tuple of split values
 
-    rules = {x.split(' -> ')[0]: x.split(' -> ')[1] for x in input[2:]}
+    rules = {x.split(' -> ')[0]: (x.split(' -> ')[0][0] + x.split(' -> ')[1], x.split(' -> ')[1] + x.split(' -> ')[0][1]) for x in input[2:]}
+    counter = Counter(tuples)
 
-    for iteration in range(1):
-        iter = tuples.copy()
-        for tuple in iter.keys():
-            if tuple in rules.keys():
-                tuples[tuple] -= iter[tuple]
-                if tuple[0] + rules[tuple] not in tuples.keys(): tuples[tuple[0] + rules[tuple]] = 0
-                tuples[tuple[0] + rules[tuple]] += iter[tuple]
-                if rules[tuple] + tuple[1] not in tuples.keys(): tuples[rules[tuple] + tuple[1]] = 0
-                tuples[rules[tuple] + tuple[1]] += iter[tuple]
+    for iteration in range(10):
+        next_counter = Counter()
+        for item, occur in counter.items():
+            next_counter[rules[item][0]] += occur
+            next_counter[rules[item][1]] += occur
+        counter = next_counter
 
-    print(tuples)
+    count = Counter()
+    for item, occur in counter.items():
+        count[item[0]] += occur
+    mostCommon = count.most_common()
+    print(mostCommon[0][1]+1-mostCommon[-1][1])
+
+    pass
