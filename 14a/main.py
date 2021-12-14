@@ -8,8 +8,6 @@ if __name__ == '__main__':
         if values not in tuples.keys(): tuples[values] = 0
         tuples[values] += 1
 
-    # TODO Map to tuple of split values
-
     rules = {x.split(' -> ')[0]: (x.split(' -> ')[0][0] + x.split(' -> ')[1], x.split(' -> ')[1] + x.split(' -> ')[0][1]) for x in input[2:]}
     counter = Counter(tuples)
 
@@ -26,4 +24,4 @@ if __name__ == '__main__':
     mostCommon = count.most_common()
     print(mostCommon[0][1]+1-mostCommon[-1][1])
 
-    pass
+    # TODO Figure out why this works and adapt for 14b
